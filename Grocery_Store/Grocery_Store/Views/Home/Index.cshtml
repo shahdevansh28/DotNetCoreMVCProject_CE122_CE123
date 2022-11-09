@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Grocery_Store.Models.Product>
+@inject SignInManager<IdentityUser> signInManager
 @{
     ViewData["Title"] = "Home Page";
+    ViewBag.controller = " ";
 }
 
 <div class="text-center">
@@ -20,7 +22,17 @@
                 @item.Price.ToString("C2")
             </p>
             <p>
-                <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id">Add to cart</a>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    ViewBag.controller = "Cart";
+                    ViewBag.action = "Add";
+                }
+                else
+                {
+                    ViewBag.controller = "Account";
+                    ViewBag.action = "Login";
+                }
+                <a class="btn btn-primary" asp-controller="@ViewBag.controller" asp-action="@ViewBag.action" asp-route-id="@item.Id">Add to cart</a>
             </p>
         </div>
     }

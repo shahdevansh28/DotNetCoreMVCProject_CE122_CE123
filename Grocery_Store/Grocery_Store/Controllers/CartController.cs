@@ -2,9 +2,11 @@
 using Grocery_Store.Models.ViewModels;
 using Grocery_Store.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Grocery_Store.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
@@ -123,6 +125,7 @@ namespace Grocery_Store.Controllers
             order.Date = DateTime.Now;
             _context.Orders.Add(order);
             _context.SaveChanges();
+            
 /*            Console.WriteLine(order.BillAmount);
             Console.WriteLine(order.Date);*/
             return RedirectToAction("index");
