@@ -21,7 +21,7 @@ builder.Services.AddScoped<ICategoryRepository, SQLCategoryRepository>();
 builder.Services.AddScoped<IProductRepository, SQLProductRepository>();
 
 var app = builder.Build();
-app.UseSession();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,6 +37,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
