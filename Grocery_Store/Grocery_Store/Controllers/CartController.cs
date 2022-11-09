@@ -109,16 +109,23 @@ namespace Grocery_Store.Controllers
         public IActionResult CheckOut()
         {
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
-            long BillAmount = 0;
+            long _BillAmount = 0;
             /*HttpContext.Session.Remove("Cart");*/
             foreach (CartItem itm in cart)
             {
-                Console.WriteLine(itm.ProductName);
-                Console.WriteLine(itm.Total);
-                BillAmount = (long)(BillAmount + itm.Total);
+/*                Console.WriteLine(itm.ProductName);
+                Console.WriteLine(itm.Total);*/
+                _BillAmount = (long)(_BillAmount + itm.Total);
             }
-            Console.WriteLine(BillAmount);
-            return RedirectToAction("Index");
+            Order order = new Order();
+
+            order.BillAmount = _BillAmount;
+            order.Date = DateTime.Now;
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+/*            Console.WriteLine(order.BillAmount);
+            Console.WriteLine(order.Date);*/
+            return RedirectToAction("index");
         }
     }
 }
